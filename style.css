@@ -1,0 +1,63 @@
+body {
+  background-color: rgb(206, 206, 206);
+}
+
+.bucket-list {
+  width: 350px;
+  background-color: aliceblue;
+  border-radius: 25px;
+  padding: 20px;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0px 10px;
+}
+
+.logo {
+  font-size: 20px;
+  font-weight: bold;
+  color: black;
+}
+
+.bucket-list__main {
+  margin-top: 10px;
+}
+
+.filter {
+  background-color: rgb(231, 231, 231);
+  border-radius: 7px;
+  padding: 5px;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.filter-item {
+  color: rgb(148, 82, 82);
+  padding: 8px 25px;
+}
+
+.filter-item--active {
+  background-color: rgb(148, 82, 82);
+  color: rgb(231, 231, 231);
+  border-radius: 7px;
+}
+
+.bucket-list__content {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+  flex-direction: column;
+}
+
+.task {
+  background-color: rgb(189, 218, 243);
+  padding: 10px;
+  border-radius: 7px;
+}
+.header__btns{
+    gap: 10px;
+    display: flex;
+}
