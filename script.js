@@ -17,15 +17,26 @@ function createElement(html) {
 }
 
 class BucketList {
-  constructor() {}
+  constructor(tasks, Filter, FilterItem, Task) {
+    this._Filter = Filter;
+    this._FilterItem = FilterItem;
+    this._Task = Task;
+    this._tasks = tasks;
+  }
 
   _getTemplate() {
-    return `<a class="logo" href="/">Projects</a>
+    return `<div class="bucket-list">
+       <header class="header">
+          <a class="logo" href="/">Projects</a>
           <div class="header__btns">
             <button class="btn"><i class="fa-solid fa-magnifying-glass"></i></button>
             <button class="btn"><i class="fa-solid fa-bars"></i></button>
           </div>
-        </header>`;
+        </header>
+       <main class="bucket-list__main">
+        <div class="bucket-list__content"></div>
+       </main>
+    </div>`;
   }
 
   get element() {
@@ -34,7 +45,9 @@ class BucketList {
 }
 
 class Filter {
-  constructor() {}
+  constructor(FilterItem) {
+    this._FilterItem = FilterItem;
+  }
 
   _getTemplate() {
     return `<div class="filter"></div>`;
@@ -73,6 +86,7 @@ class Task {
             </article>`;
 
     }
+    
     get element() {
         return this._element
     }
