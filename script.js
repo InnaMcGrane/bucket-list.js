@@ -65,8 +65,8 @@ class Task {
 
     _getTemplate(){
         return `<article class="task">
-              <h3 class="task__title">Home</h3>
-              <p class="task__desc">Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolores, pariatur</p>
+              <h3 class="task__title">${this._title}</h3>
+              <p class="task__desc">${this._desc}</p>
             </article>`;
 
     }
