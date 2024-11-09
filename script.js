@@ -46,12 +46,15 @@ class Filter {
 }
 
 class FilterItem {
-  constructor(item) {
-    this_item = item;
+  constructor({text, active}) {
+    this._text = text;
+    this._active = active;
   }
+
   _getTemplate() {
-    return `<span class="filter-item filter-item--active">All</span>`
+    return `<span class="filter-item ${this._active === true ? "filter-item--active" : ""}">${this._text}</span>`
   }
+
   get element() {
     return this._element;
   }
