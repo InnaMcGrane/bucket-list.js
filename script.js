@@ -22,6 +22,7 @@ class BucketList {
     this._FilterItem = FilterItem;
     this._Task = Task;
     this._tasks = tasks;
+    this._init()
   }
 
   _getTemplate() {
@@ -37,6 +38,10 @@ class BucketList {
         <div class="bucket-list__content"></div>
        </main>
     </div>`;
+  }
+
+  _init(){
+    this._element = createElement(this._getTemplate())
   }
 
   get element() {
@@ -84,7 +89,6 @@ class Task {
               <h3 class="task__title">${this._title}</h3>
               <p class="task__desc">${this._desc}</p>
             </article>`;
-
     }
     
     get element() {
@@ -94,4 +98,4 @@ class Task {
 
 
 const root = document.querySelector('.root')
-root.insertAdjacentElement("beforeend")
+root.insertAdjacentElement("beforeend", new BucketList(Filter, FilterItem, Task).element)
