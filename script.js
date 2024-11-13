@@ -40,6 +40,11 @@ class BucketList {
     </div>`;
   }
 
+
+  _generateTasks(){
+   return this._tasks.map((data) => new this._Task(data).element)
+  }
+
   _init() {
     this._element = createElement(this._getTemplate());
     this._render();
@@ -47,6 +52,7 @@ class BucketList {
 
   _render() {
     this._element.querySelector(".bucket-list__filter").append(new this._Filter(this._FilterItem).element);
+    this._element.querySelector(".bucket-list__content").append(...this._generateTasks());
   }
 
   get element() {
@@ -106,6 +112,11 @@ class Task {
   constructor({ title, desc }) {
     this._title = title;
     this._desc = desc;
+    this._init();
+  }
+
+  _init() {
+    this._element = createElement(this._getTemplate())
   }
 
   _getTemplate() {
