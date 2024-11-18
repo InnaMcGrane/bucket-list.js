@@ -37,6 +37,7 @@ body {
 .filter-item {
   color: rgb(148, 82, 82);
   padding: 8px 25px;
+  cursor: pointer;
 }
 
 .filter-item--active {

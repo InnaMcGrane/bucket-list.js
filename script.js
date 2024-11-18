@@ -16,7 +16,11 @@ function createElement(html) {
 }
 
 class BucketList {
-  constructor(tasks, Filter, FilterItem, Task) {
+     _state = {
+      curruntFilterCategory: "All"
+     }
+  
+     constructor(tasks, Filter, FilterItem, Task) {
     this._tasks = tasks;
     this._Filter = Filter;
     this._FilterItem = FilterItem;
@@ -40,9 +44,32 @@ class BucketList {
     </div>`;
   }
 
+  _setStateCurrentFilterCategory(newCurrentFilterCategory){
+    this._state.curruntFilterCategory = newCurrentFilterCategory;
+  }
 
-  _generateTasks(){
-   return this._tasks.map((data) => new this._Task(data).element)
+  _setStateCurrentFilterCategoryHandler(newCurrentFilterCategory){
+  this._setStateCurrentFilterCategory(newCurrentFilterCategory);
+  this._render()
+  }
+
+  _getCategories() {
+    const arr = this._tasks.reduce(
+      (acc, el) => {
+        return [...acc, el.category];
+      },
+      ["All"]
+    );
+
+    return Array.from(new Set(arr));
+  }
+
+  _generateTasks() {
+    if (this._state.curruntFilterCategory === "All" ) {
+      return this._tasks.map((data) => new this._Task(data).element);
+    }
+    
+    return this._tasks.filter((task) => task.category === this._state.curruntFilterCategory).map((data) => new this._Task(data).element) 
   }
 
   _init() {
@@ -51,7 +78,9 @@ class BucketList {
   }
 
   _render() {
-    this._element.querySelector(".bucket-list__filter").append(new this._Filter(this._FilterItem).element);
+    this._element.querySelector(".bucket-list__filter").textContent = "";
+    this._element.querySelector(".bucket-list__filter").append(new this._Filter(this._FilterItem, this._getCategories(), this._setStateCurrentFilterCategoryHandler.bind(this), this._state.curruntFilterCategory).element)
+    this._element.querySelector(".bucket-list__content").textContent = "";
     this._element.querySelector(".bucket-list__content").append(...this._generateTasks());
   }
 
@@ -61,8 +90,11 @@ class BucketList {
 }
 
 class Filter {
-  constructor(FilterItem) {
+  constructor(FilterItem, categories, handler, currentCategory) {
     this._FilterItem = FilterItem;
+    this._categories = categories;
+    this._handler = handler;
+    this._currentCategory = currentCategory;
     this._init();
   }
 
@@ -72,11 +104,13 @@ class Filter {
 
   _init() {
     this._element = createElement(this._getTemplate());
-    this._render()
+    this._render();
   }
 
   _generateItems() {
-    return [new this._FilterItem({ text: "All", active: true }).element, new this._FilterItem({ text: "Home", active: false }).element, new this._FilterItem({ text: "Sport", active: false }).element];
+    return this._categories.map((text) => {
+      return new this._FilterItem({ text, active: text === this._currentCategory ? true : false }, this._handler).element;
+    });
   }
 
   _render() {
@@ -89,18 +123,26 @@ class Filter {
 }
 
 class FilterItem {
-  constructor({ text, active }) {
+  constructor({ text, active }, handler) {
     this._text = text;
     this._active = active;
-    this._init()
+    this._handler = handler;
+    this._init();
+  }
+
+  _init() {
+    this._element = createElement(this._getTemplate());
+    this._addListeners()
+  }
+
+  _addListeners() {
+    this._element.addEventListener("click", () => {
+      this._handler(this._text)
+    })
   }
 
   _getTemplate() {
     return `<span class="filter-item ${this._active === true ? "filter-item--active" : ""}">${this._text}</span>`;
-  }
-
-  _init(){
-    this._element = createElement(this._getTemplate());
   }
 
   get element() {
@@ -116,7 +158,7 @@ class Task {
   }
 
   _init() {
-    this._element = createElement(this._getTemplate())
+    this._element = createElement(this._getTemplate());
   }
 
   _getTemplate() {
@@ -136,11 +178,31 @@ const tasks = [
     id: 241,
     title: "home title",
     desc: "home desc",
+    category: "home",
   },
   {
     id: 234,
     title: "sport title",
     desc: "sport desc",
+    category: "sport",
+  },
+  {
+    id: 54,
+    title: "sport title2",
+    desc: "sport desc2",
+    category: "sport",
+  },
+  {
+    id: 2352,
+    title: "game title",
+    desc: "game desc",
+    category: "game",
+  },
+  {
+    id: 56,
+    title: "happy title",
+    desc: "happy desc",
+    category: "happy",
   },
 ];
 
